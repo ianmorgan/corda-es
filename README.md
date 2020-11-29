@@ -1,7 +1,7 @@
 # corda-with-actors
 
-So what is this repo about? I work for R3 and while we have great DLT with Corda, its not always easy model 
-business processes as smart contracts (CorDapps). This little experiment asks a fundemental question, 
+So what is this repo about? I work for R3 and while we have great DLT with [Corda[https://www.corda.net/], its not always easy model 
+business processes as smart contracts (CorDapps). This little experiment asks a fundamental question: 
 
 **What happens if we drop the UTXO model?** 
 
@@ -50,20 +50,10 @@ But most importantly, there is no explicit IOUState on the ledger. Instead there
 on the ledger associated to the "ContractId" of "#123". All that matters is that this id is unique, i.e. there can be 
 no event for this contract on the ledger as it responsible for issuing a new IOU to the ledger 
 
-This has may implications, most of which I suspect are good.  
+This has may implications, most of which I suspect are good - simply as in my experience it easier and more efficient 
+to rationailise complicated problems in the world of events.
 
 To be continued.....
-
-
-
-
-
-
-
-
-
-
-Ensure uniqueness of the  
 
 
 
