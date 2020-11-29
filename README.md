@@ -28,7 +28,9 @@ signing and agreeing concensus) to leave just a single node, and I've used the [
 conventions for colouring. 
 
 
-![IOU as Events](docs/images/iou-as-events.png)
+![IOU as Events](docs/images/iou-as-event.png)
+
+<img src="docs/images/iou-as-events.png" width="800"> 
 
 
  
