@@ -3,12 +3,7 @@
 So what is this repo about? I work for R3 and while we have great DLT with [Corda)[https://www.corda.net/], its not always easy model 
 business processes as smart contracts (CorDapps). This little experiment asks a fundamental question: 
 
-
->[!The Big Question]
->What happens if we drop the UTXO model?
-
->[!WARNING]
->This is a warning
+>**What happens if we drop the UTXO model?**
 
 There is a lengthy discussion on the [pros and cons](https://www.corda.net/blog/rationale-for-and-tradeoffs-in-adopting-a-utxo-style-model]) 
 of this decision here. This is at the heart of the Corda programming model when implementing contracts
