@@ -17,7 +17,7 @@ events associated with the contract. The principles borrow heavily from thinking
 patterns. 
 
 To explain a little further, take the [IOU example](https://docs.corda.net/docs/corda-os/4.6/hello-world-introduction.html). 
-We think about the problem a little differently - there is now no IOUState as such. Instead the IOUContract has concepts. 
+We think about the problem a little differently - there is now no IOUState as such. Instead the IOUContract has two concepts. 
 * command handlers to validate the request to update the contract, and if accepted generate signed event(s) with the 
 update
 * reducers that read the history of all events associated with the contract to build a view    
@@ -30,7 +30,41 @@ conventions for colouring.
 
 ![IOU as Events](docs/images/iou-as-event.png)
 
-<img src="docs/images/iou-as-events.png" width="800"> 
+<img src="docs/images/iou-as-event.png" width="800"> 
+
+
+In some ways this is still very similar to the existing UTXO contract. For example:
+* there are still commands to enforce the contract rules when the state for a contract is modified.
+* all parties need to agree on final ledger change and sign over the same event.
+* there is still a transaction linking one or more events into a single atomic transaction on the ledger. 
+* there are still many independent chains within the ledger that only require knowledge of each other if 
+they are combined in a transaction.    
+
+But in other ways it is very different:
+* events only hold the data explicitly required for the modification requested. this becomes more obvious once we start
+looking at changing this data.
+* all contracts will need to implement one or more "reducers" that read the events back into a view, e.g the current state 
+of the IOU once payments and possible change of ownership are considered.
+
+But most importantly, there is no explicit IOUState on the ledger. Instead there is an instance of the IOUContract 
+on the ledger associated to the "ContractId" of "#123". All that matters is that this id is unique, i.e. there can be 
+no event for this contract on the ledger as it responsible for issuing a new IOU to the ledger 
+
+This has may implications, most of which I suspect are good.  
+
+To be continued.....
+
+
+
+
+
+
+
+
+
+
+Ensure uniqueness of the  
+
 
 
  
