@@ -28,7 +28,7 @@ signing and agreeing concensus) to leave just a single node, and I've used the [
 conventions for colouring. 
 
 
-<img src="images/iou-as-events.png" width="800"> 
+<img src="docs/images/iou-as-events.png" width="800"> 
 
 
  
