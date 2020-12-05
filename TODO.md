@@ -32,3 +32,36 @@ What are the rules here ?
 ## deprecating an event 
 
 ##
+
+
+# What happens if the participants list change ?
+
+The "Story Reading" contract 
+
+Mary had a little lamb
+Its fleece was white as snow 
+And everywhere that Mary went 
+The Lamb was sure to go 
+
+
+Mary...           next line read event
+Alice
+Bob
+
+Its....           next line read event
+Alice
+Bob
+
+Change Reader     current line is event 
+Alice
+Charlie
+Bob 
+
+And....
+Charlie
+Bob
+
+
+
+
+
