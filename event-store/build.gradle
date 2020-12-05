@@ -38,6 +38,8 @@ repositories {
 
 
 dependencies {
+
+    compile files('../crypto/build/libs/crypto.jar')
     
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"

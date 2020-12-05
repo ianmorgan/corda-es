@@ -1,5 +1,6 @@
 package net.cordaes.event
 
+import net.cordaes.crypto.SecureHash
 import net.cordaes.eventStore.JsonHelper
 import net.cordaes.json.JSONObject
 import java.util.UUID
@@ -14,8 +15,11 @@ data class Event(
         val creator: String = "???",
         val aggregateId: String? = null,
         val payload: Map<String, Any?> = emptyMap()
-) {
+) : HashedEvent {
 
+    override fun hash(): SecureHash {
+        return SecureHash.hash(ModelMapper.toJSON(this).toString())
+    }
 
     fun payloadAsUUID(key: String, default: UUID? = null): UUID {
         return payloadAsType(key, default, {
@@ -43,7 +47,7 @@ data class Event(
         return payloadAsType(key, default, { it.toString().toDouble() })
     }
 
-    fun aggregateIdAsUUID() : UUID {
+    fun aggregateIdAsUUID(): UUID {
         return UUID.fromString(aggregateId)
     }
 
