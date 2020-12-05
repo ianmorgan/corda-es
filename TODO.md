@@ -19,3 +19,16 @@ It is likely that in most cases a contract will manage a single concept, and tha
 # Fungible States
 
 These are still going to be a pain - long chains dont go away 
+
+
+# Upgrading contracts 
+
+todo - think through the scenarios 
+
+## new event 
+
+What are the rules here ?
+
+## deprecating an event 
+
+##

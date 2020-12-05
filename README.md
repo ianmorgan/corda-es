@@ -1,4 +1,4 @@
-# corda-with-events 
+# CordaES
 
 So what is this repo about? I work for R3 and while we have great DLT with [Corda](https://www.corda.net/), its not always easy 
 to model business processes as smart contracts (CorDapps). 
@@ -8,7 +8,7 @@ This little experiment asks a fundamental question:
 
 There is a lengthy discussion on the [pros and cons](https://www.corda.net/blog/rationale-for-and-tradeoffs-in-adopting-a-utxo-style-model]) 
 of this decision here. This is at the heart of the Corda programming model when implementing contracts,
-though not necessary at the heart of the ecoystem - a lot of functionality in Corda is 
+though not necessary at the heart of the ecosystem - a lot of functionality in Corda is 
 there to "support" the contract and is actually not tightly coupled to the contract itself.  So in theory at least, if 
 an alternative model has clear benefits over UTXO for some use cases, we should be able support both models on a common platform. 
 
