@@ -1,33 +1,47 @@
 package net.cordaes.contracts.iou
 
+import net.corda.core.contracts.UniqueIdentifier
+import net.corda.core.contracts.requireThat
+import net.cordaes.contracts.iou.events.IOUIssued
 import net.cordaes.contracts.iou.states.IOU
-import net.cordaes.ledger.Command
-import net.cordaes.ledger.Contract
-import net.cordaes.ledger.LedgerTransaction
+import net.cordaes.ledger.*
 
 class IOUContract : Contract {
-    override fun verify(txn: LedgerTransaction) {
+    override fun verify(ctx: LedgerCtx, txn: LedgerTransaction) {
+        val cmd = txn.request()
+        val validator = IOUContactValidator(ctx, txn)
 
-        when (txn.request()) {
+        when (cmd) {
             is IssueCommand -> {
-                // check no one has issued this
-                // create the event
+                requireThat {
+                    "There cannot be an IOU with this linear ID" using validator.noExistingIOU(cmd)
+                    "I am the lender" using validator.isLenderParty(cmd)
+                }
 
+                val ev = IOUIssued(cmd.linearId, cmd.iou)
 
-
-
+                // sign the event
+                // store the signature
             }
         }
 
+    }
+}
 
+class IOUContactValidator(private val ctx: LedgerCtx, private val txn: LedgerTransaction) {
+    fun noExistingIOU(cmd: IssueCommand): Boolean {
+        return ctx.vaultServices().queryEvents(VaultEventQueries.LinearStateQuery(cmd.linearId)).isEmpty()
     }
 
+    fun isLenderParty(cmd: IssueCommand): Boolean {
+        return ctx.serviceHub().myInfo.legalIdentities.contains(cmd.iou.lender)
+    }
 }
 
 /*
  Issue a new IOU
  */
-class IssueCommand(val iou: IOU) : Command
+class IssueCommand(val linearId: UniqueIdentifier, val iou: IOU) : Command
 
 /*
  Transfer ownership
