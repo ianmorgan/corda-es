@@ -5,6 +5,7 @@ import java.security.KeyPairGenerator
 import java.security.SecureRandom
 import java.security.KeyPair
 
+// Simplified version of Corda open source
 
 abstract class AbstractParty(val owningKey: PublicKey)
 
@@ -13,7 +14,6 @@ class Party(val name: CordaX500Name, owningKey: PublicKey) : AbstractParty(ownin
             net.corda.core.identity.KeyPairGenerator.doit().public)
 
 }
-
 
 object KeyPairGenerator {
 

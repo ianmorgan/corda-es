@@ -40,6 +40,12 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+
+    // Bouncy castle support needed for X509 certificate manipulation
+    compile "org.bouncycastle:bcprov-jdk15on:1.66"
+    compile "org.bouncycastle:bcpkix-jdk15on:1.66"
+
+
     compile files('../crypto/build/libs/crypto.jar')
     compile files('../event-store/build/libs/event-store.jar')
 
