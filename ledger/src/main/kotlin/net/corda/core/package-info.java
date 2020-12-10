@@ -1,5 +1,5 @@
 package net.corda.core;
 
 /*
- Mirror the Corda types where possible
+  Mirror the core Corda types and API where possible
  */

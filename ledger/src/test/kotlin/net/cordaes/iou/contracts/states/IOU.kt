@@ -1,4 +1,4 @@
-package net.cordaes.contracts.iou.states
+package net.cordaes.iou.contracts.states
 
 import net.corda.core.identity.Party
 

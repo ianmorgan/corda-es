@@ -9,9 +9,9 @@ interface ServiceHub {
 }
 
 
-class DefaultServiceHub : ServiceHub {
+class DefaultServiceHub(private val party: Party = Party("Alice")) : ServiceHub {
 
     override val myInfo: NodeInfo
-        get() = NodeInfo(Party("Alice"))
+        get() = NodeInfo(party)
 
 }

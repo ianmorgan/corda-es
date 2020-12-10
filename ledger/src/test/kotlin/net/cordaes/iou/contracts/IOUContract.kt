@@ -1,14 +1,14 @@
-package net.cordaes.contracts.iou
+package net.cordaes.iou.contracts
 
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.contracts.requireThat
-import net.cordaes.contracts.iou.events.IOUIssued
-import net.cordaes.contracts.iou.states.IOU
+import net.cordaes.iou.contracts.events.IOUIssued
+import net.cordaes.iou.contracts.states.IOU
 import net.cordaes.ledger.*
 
 class IOUContract : Contract {
     override fun verify(ctx: LedgerCtx, txn: LedgerTransaction) {
-        val cmd = txn.request()
+        val cmd = txn.command
         val validator = IOUContactValidator(ctx, txn)
 
         when (cmd) {

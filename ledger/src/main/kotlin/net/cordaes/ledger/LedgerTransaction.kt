@@ -10,10 +10,22 @@ import net.cordaes.event.Event
  */
 interface LedgerTransaction {
 
-    fun hash(): SecureHash
+    val hash: SecureHash
 
-    fun request(): Command
+    val command: Command
 
-    fun events(): List<Event>
+    val events: List<Event>
+
+}
+
+class SimpleTransactionBuilder {
+    data class State(val request: Command)
+
+    //fun build
+}
+
+class SimpleLedgerTransaction(override val hash: SecureHash = SecureHash("nothing".toByteArray()),
+                               override val command: Command = NoopCommand(),
+                               override val events: List<Event> = emptyList()) : LedgerTransaction {
 
 }
