@@ -1,0 +1,98 @@
+buildscript {
+    ext.kotlin_version = '1.3.20'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+
+    }
+    dependencies {
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // for Spec - http://spekframework.org/docs/latest/
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+
+    }
+
+}
+
+plugins {
+    id 'java'
+    id "org.jetbrains.kotlin.jvm" version "1.3.20"
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+
+group 'net.cordaes.eventStore'
+version '0.0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+
+dependencies {
+
+    compile files('../crypto/build/libs/crypto.jar')
+    
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    // Jackson for JSON and YAML
+    compile('com.fasterxml.jackson.core:jackson-databind:2.9.8')
+    compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8')
+    
+    testCompile group: 'com.natpryce', name: 'hamkrest', version: '1.4.2.2'
+    testCompile('org.jetbrains.spek:spek-api:1.1.5') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testRuntime('org.jetbrains.spek:spek-junit-platform-engine:1.1.5') {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile('org.junit.platform:junit-platform-runner:1.0.0')
+
+    testCompile('org.junit.platform:junit-platform-runner:1.0.0')
+
+    // spek v2
+    testCompile("org.spekframework.spek2:spek-dsl-jvm:2.0.0")
+    testCompile("org.spekframework.spek2:spek-runner-junit5:2.0.0")
+    
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'spek', 'spek2'
+    }
+}
+
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += ["-Xsanitize-parentheses"]
+
+    }
+}
+
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += ["-Xsanitize-parentheses"]
+
+    }
+}
+
+
+jar {
+    archiveName = "serializers.jar"
+}
+
