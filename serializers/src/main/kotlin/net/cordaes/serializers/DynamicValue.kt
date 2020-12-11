@@ -1,5 +1,4 @@
-package net.corda.ccl.commons
-
+package net.cordaes.serializers
 
 /**
  * Represents the four possible types of data to return

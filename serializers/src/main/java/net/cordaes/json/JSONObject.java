@@ -2,10 +2,11 @@ package net.cordaes.json;
 
 
 
-import net.corda.ccl.commons.DynamicList;
-import net.corda.ccl.commons.DynamicMap;
-import net.corda.ccl.commons.DynamicNull;
-import net.corda.ccl.commons.DynamicScalar;
+
+import net.cordaes.serializers.DynamicList;
+import net.cordaes.serializers.DynamicMap;
+import net.cordaes.serializers.DynamicNull;
+import net.cordaes.serializers.DynamicScalar;
 
 import java.io.Closeable;
 import java.io.IOException;
