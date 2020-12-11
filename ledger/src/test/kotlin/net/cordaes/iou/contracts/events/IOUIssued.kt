@@ -14,9 +14,11 @@ class IOUIssued(linearId: UniqueIdentifier,
 
     override val contactInstanceId: ByteArray = linearId.toString().toByteArray()
 
-    override fun parties(): List<Party> {
-        return listOf(iou.lender, iou.borrower)
-    }
+    override val participants: List<Party>
+        get() {
+            return listOf(iou.lender, iou.borrower)
+        }
+
 
     override fun payload(): IOU {
         return iou
