@@ -5,6 +5,7 @@ import net.corda.core.identity.Party
 import net.cordaes.ledger.event.IssuingEvent
 import net.cordaes.ledger.event.LedgerEvent
 import net.cordaes.ledger.event.TypedPayloadEvent
+import net.cordaes.serializers.MapConverter
 import java.io.File
 import java.lang.StringBuilder
 
@@ -37,7 +38,18 @@ class CanvasViewer {
                 .reversed()
                 .joinToString { "\"${it.name.organisation}\"" }
 
-        sb.append("drawEventBox(ctx, ${index}, \"${ev.javaClass.simpleName}\", [ $parties], [[\"amount\", 100]]);\n")
+        val attributes = when (ev) {
+            is TypedPayloadEvent<*> -> {
+                val attrs = MapConverter().toMap(ev.payload()!!)
+                attrs.entries.joinToString(",") { "[\"${it.key}\",\"${it.value}\"] " }
+            }
+            else -> {
+                ""
+            }
+        }
+
+
+        sb.append("drawEventBox(ctx, ${index}, \"${ev.javaClass.simpleName}\", [$parties], [$attributes]);\n")
 
         return sb.toString()
     }
@@ -50,11 +62,19 @@ class CanvasViewer {
         /* make a constant for everything */ 
         var border = "#808080";
         var font = "16px Arial";
-        var borderWidth = 3;
+        var eventBlockBorderWidth = 2;
+        var eventBlockWidth = 300;
+        var eventBlockHeight = 150;
+        var eventBlockSpacing = 30;
+        
+        var participantsBoxWidth = 70;
+        var participantsBoxHeight = 25;
         
         var participantFont = "12px Arial"
-        var eventBlockWidth = 400;
-        var eventBlockSpacing = 50;
+        
+        var attributeFont = "12px Arial"
+        var attributeColour = "blue"
+
     """.trimIndent()
 
     val drawEventBox = """
@@ -66,8 +86,8 @@ class CanvasViewer {
             var x = eventBlockX(index);
             var y = 100;
             ctx.strokeStyle = border;
-            ctx.lineWidth = borderWidth;
-            ctx.strokeRect(x, y, eventBlockWidth, 200);
+            ctx.lineWidth = eventBlockBorderWidth;
+            ctx.strokeRect(x, y, eventBlockWidth, eventBlockHeight);
 
             ctx.font = font;
             ctx.fillStyle = "green";
@@ -75,21 +95,49 @@ class CanvasViewer {
             ctx.fillText(name, x + 20, y + 30);
             
             for (i = 0, len = participants.length, text = ""; i < len; i++) {
-                var px = x + eventBlockWidth - 100 - (i * 100);
+                var px = x + eventBlockWidth - participantsBoxWidth - (i * participantsBoxWidth);
                 var py = y + 5;
-                ctx.fillStyle = "#AAA";
-                //ctx.fillRect(px , py, 90, 30);
-                 
+                ctx.fillStyle = "#CCC";
+
                 ctx.beginPath();
-                ctx.roundedRectangle(px, py, 90, 30, 3);
+                ctx.roundedRectangle(px, py, participantsBoxWidth - 10, participantsBoxHeight, 3);
                 ctx.stroke();
                 ctx.fill();
-                
+
                 ctx.font = participantFont;
                 ctx.fillStyle = "black";
                 ctx.textAlign = "left";
-                ctx.fillText(participants[i], px + 5, py + 15);
+                ctx.fillText(participants[i], px + 5, py + 16);
             }
+            
+            var w1 = 50;
+            var w2 = 50;
+            
+            for (i = 0, len = attributes.length, text = ""; i < len; i++) {
+                var width = ctx.measureText(attributes[i][0]).width;
+                if (width > w1) {
+                    w1 = width;   
+                }
+                var width = ctx.measureText(attributes[i][1]).width;
+                if (width > w2) {
+                    w2 = width;   
+                }
+            }
+            
+            for (i = 0, len = attributes.length, text = ""; i < len; i++) {
+                var ax = x + 20;
+                var ay = y + 60 + (i * 20);
+                
+                ctx.font = "bold " + attributeFont ;
+                ctx.fillStyle = attributeColour;
+                ctx.textAlign = "left";
+                ctx.fillText(attributes[i][0] + ":", ax, ay);
+
+                ctx.font = attributeFont 
+                ctx.fillText(attributes[i][1], ax + w1 + 15, ay);
+            }
+            
+            
         }
     """.trimIndent()
 
@@ -176,7 +224,7 @@ class IOUIssued(linearId: UniqueIdentifier = UniqueIdentifier(),
     }
 }
 
-data class IOUPayment(val amount: Long = 100, val payee: Party = Party("Bob"), val recipient: Party = Party("Alice"))
+data class IOUPayment(val amount: Long = 20, val payee: Party = Party("Bob"), val recipient: Party = Party("Alice"))
 class IOUPaid(linearId: UniqueIdentifier = UniqueIdentifier(),
               private val payment: IOUPayment) : LedgerEvent, IssuingEvent,
         TypedPayloadEvent<IOUPayment> {
