@@ -38,16 +38,15 @@ repositories {
 
 
 dependencies {
-
     compile files('../crypto/build/libs/crypto.jar')
-    
+    compile files('../serializers/build/libs/serializers.jar')
+
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Jackson for JSON and YAML
     compile('com.fasterxml.jackson.core:jackson-databind:2.9.8')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8')
-
 
     testCompile group: 'com.natpryce', name: 'hamkrest', version: '1.4.2.2'
     testCompile('org.jetbrains.spek:spek-api:1.1.5') {
@@ -65,7 +64,6 @@ dependencies {
     // spek v2
     testCompile("org.spekframework.spek2:spek-dsl-jvm:2.0.0")
     testCompile("org.spekframework.spek2:spek-runner-junit5:2.0.0")
-    
 }
 
 test {

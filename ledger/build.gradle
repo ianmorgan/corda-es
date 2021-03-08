@@ -42,7 +42,7 @@ dependencies {
 
     compile files('../crypto/build/libs/crypto.jar')
     compile files('../event-store/build/libs/event-store.jar')
-    compile files('../serializers/build/libs/foo.jar')
+    compile files('../serializers/build/libs/serializers.jar')
 
     // Jackson for JSON and YAML
     compile('com.fasterxml.jackson.core:jackson-databind:2.9.8')

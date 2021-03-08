@@ -15,7 +15,7 @@ import net.cordaes.json.JSONObject
 import java.io.File
 import java.io.IOException
 
-class MapConverter {
+class Serializer {
     private val mapper: ObjectMapper = ObjectMapper()
 
     init {
@@ -32,7 +32,12 @@ class MapConverter {
         // At JSONObject converts it (reasonably) sensibly to a regular map
         return JSONObject(json).toMap()
     }
-}
+
+    fun toJson(value: Any): String {
+        // Jackson gives us good JSON
+        val json = mapper.writeValueAsString(value)
+        return json
+    }}
 
 
 class PartySerializer @JvmOverloads constructor(t: Class<Party>? = null) : StdSerializer<Party>(t) {

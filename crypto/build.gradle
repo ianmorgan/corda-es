@@ -39,7 +39,10 @@ dependencies {
     
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    
+
+    compile files('../serializers/build/libs/serializers.jar')
+
+
     testCompile group: 'com.natpryce', name: 'hamkrest', version: '1.4.2.2'
     testCompile('org.jetbrains.spek:spek-api:1.1.5') {
         exclude group: 'org.jetbrains.kotlin'

@@ -61,6 +61,48 @@ And....
 Charlie
 Bob
 
+# How do we check for double spends 
+
+## Linear states 
+- this is easy, the Notary simply checks there were no events since ths last event 
+(implies we always need to know the last event so we can chain)
+
+## Fungible state 
+
+Option A - simply chain all events 
+
+Bank issues $10 to Alice           
+
+Alice transfers $3 to Bob (alice 7, bob 3)
+
+
+Alice 
+issue event
+transfer event 
+
+
+Bob
+request backchain (issue event)
+transfer event 
+
+
+# How do we stop other stealing the state ?
+
+By implication all events must be linked to a contract (instance?) and 
+therefore the ledger (notary) must protect against events from another party 
+- probably want to make change the participants a set of explicit events, 
+
+Do we want to make certain operation "validatable by the notary" - we could model 
+this "assertion" events - we trade of some speed (and privacy) for more guarentese ? 
+ - a 
+
+InitialPartipants
+ParticpantsAdded
+ParticipantsRemoved
+
+
+
+
 
 
 

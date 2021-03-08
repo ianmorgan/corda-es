@@ -2,10 +2,11 @@ package net.cordaes.ledger.event.viewers
 
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.identity.Party
+import net.cordaes.hashing.Hasher
 import net.cordaes.ledger.event.IssuingEvent
 import net.cordaes.ledger.event.LedgerEvent
 import net.cordaes.ledger.event.TypedPayloadEvent
-import net.cordaes.serializers.MapConverter
+import net.cordaes.serializers.Serializer
 import java.io.File
 import java.lang.StringBuilder
 
@@ -40,7 +41,7 @@ class CanvasViewer {
 
         val attributes = when (ev) {
             is TypedPayloadEvent<*> -> {
-                val attrs = MapConverter().toMap(ev.payload()!!)
+                val attrs = Serializer().toMap(ev.payload()!!)
                 attrs.entries.joinToString(",") { "[\"${it.key}\",\"${it.value}\"] " }
             }
             else -> {
@@ -48,8 +49,8 @@ class CanvasViewer {
             }
         }
 
-
-        sb.append("drawEventBox(ctx, ${index}, \"${ev.javaClass.simpleName}\", [$parties], [$attributes]);\n")
+        val hash = ev.hash.substring(0,8)
+        sb.append("drawEventBox(ctx, ${index}, \"${ev.javaClass.simpleName}\", [$parties], [$attributes], \"${hash}\");\n")
 
         return sb.toString()
     }
@@ -82,7 +83,7 @@ class CanvasViewer {
            return (eventBlockWidth+eventBlockSpacing)*index + 50;
         }
         
-        function drawEventBox(ctx, index, name, participants, attributes) {
+        function drawEventBox(ctx, index, name, participants, attributes, hash) {
             var x = eventBlockX(index);
             var y = 100;
             ctx.strokeStyle = border;
@@ -137,7 +138,11 @@ class CanvasViewer {
                 ctx.fillText(attributes[i][1], ax + w1 + 15, ay);
             }
             
-            
+            //ctx.font = "bold " + attributeFont ;
+            ctx.fillStyle = "orange";
+            //ctx.textAlign = "left";
+            ctx.fillText(hash, x + 10, y + eventBlockHeight - 20);
+ 
         }
     """.trimIndent()
 
@@ -222,6 +227,9 @@ class IOUIssued(linearId: UniqueIdentifier = UniqueIdentifier(),
     override fun payload(): IOU {
         return iou
     }
+
+    override val hash: String = Hasher().hash(payload() as Any)
+
 }
 
 data class IOUPayment(val amount: Long = 20, val payee: Party = Party("Bob"), val recipient: Party = Party("Alice"))
@@ -236,6 +244,8 @@ class IOUPaid(linearId: UniqueIdentifier = UniqueIdentifier(),
     override fun payload(): IOUPayment {
         return payment
     }
+
+    override val hash: String = Hasher().hash(payload() as Any)
 }
 
 data class IOUTransfer(val currentLender: Party = Party("Alice"), val newLender: Party = Party("Charlie"))
@@ -250,6 +260,8 @@ class IOUTransfered(linearId: UniqueIdentifier = UniqueIdentifier(),
     override fun payload(): IOUTransfer {
         return transfer
     }
+
+    override val hash: String = Hasher().hash(payload() as Any)
 }
 
 fun main(args: Array<String>) {

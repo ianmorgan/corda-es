@@ -2,6 +2,7 @@ package net.cordaes.iou.contracts.events
 
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.identity.Party
+import net.cordaes.hashing.Hasher
 import net.cordaes.iou.contracts.states.IOU
 import net.cordaes.ledger.event.*
 
@@ -19,9 +20,9 @@ class IOUIssued(linearId: UniqueIdentifier,
             return listOf(iou.lender, iou.borrower)
         }
 
-
     override fun payload(): IOU {
         return iou
     }
 
+    override val hash: String = Hasher().hash(payload())
 }
